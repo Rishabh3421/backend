@@ -30,7 +30,20 @@ router.get('/', async (req, res) => {
   }
 });
 
-// Update user details
+// Get a user by ID
+router.get('/:id', async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+    if (!user) {
+      return res.status(404).send({ message: 'User not found' });
+    }
+    res.send(user);
+  } catch (error) {
+    res.status(500).send({ message: 'Error fetching user' });
+  }
+});
+
+// Update a user by ID
 router.put('/:id', async (req, res) => {
   const { id } = req.params;
   try {
@@ -44,7 +57,7 @@ router.put('/:id', async (req, res) => {
   }
 });
 
-// Delete a user
+// Delete a user by ID
 router.delete('/:id', async (req, res) => {
   const { id } = req.params;
   try {
